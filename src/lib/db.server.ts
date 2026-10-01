@@ -16,8 +16,11 @@ function connectionString(): string {
 // one afterwards fails with "Network connection lost". So every call gets a
 // short-lived connection that closes itself once idle.
 export function db(): Sql {
-  return postgres(connectionString(), {
-    ssl: "require",
+  const url = connectionString();
+  const ssl = new URL(url).searchParams.get("sslmode") === "disable" ? false : "require";
+
+  return postgres(url, {
+    ssl,
     max: 1,
     idle_timeout: 2,
     connect_timeout: 15,
