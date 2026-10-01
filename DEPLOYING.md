@@ -40,7 +40,8 @@ step is skipped with a note in the server log.
 3. Build for a Node server: `npm run build:node`
 4. Set the start command to `npm start`. In **Setup Node.js App**, use `start.mjs` as the startup
   file. It binds to `0.0.0.0`, uses the provider's `PORT`, and defaults to `3000`.
-  Add the environment variables above, then start the app.
+  Add the environment variables above, set the health-check path to `/health` where supported,
+  then start the app.
 5. Create the database tables and load the data: run the plain PostgreSQL file
    `database/schema-and-catalogue.sql` against the empty database
    (`psql "your connection string" -f database/schema-and-catalogue.sql`), then create the first
