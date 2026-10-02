@@ -1,6 +1,14 @@
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
+if (typeof process.loadEnvFile === "function") {
+  try {
+    process.loadEnvFile(new URL("./.env", import.meta.url));
+  } catch {
+    // Ignore missing local env files; values may still be provided by the shell.
+  }
+}
+
 process.env.NITRO_HOST = "0.0.0.0";
 process.env.NITRO_PORT = process.env.PORT || "3000";
 
