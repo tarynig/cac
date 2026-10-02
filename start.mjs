@@ -6,6 +6,9 @@ process.env.NITRO_PORT = process.env.PORT || "3000";
 
 process.on("uncaughtExceptionMonitor", (error) => console.error("SYSTEM CRASH:", error));
 process.on("exit", (code) => console.error("Node process exiting with code:", code));
+process.on("beforeExit", (code) =>
+  console.error("Node event loop is empty; no active server handle remains. Exit code:", code),
+);
 
 const serverEntry = new URL("./.output/server/index.mjs", import.meta.url);
 console.log(
@@ -15,6 +18,7 @@ console.log(
     cwd: process.cwd(),
     host: process.env.NITRO_HOST,
     port: process.env.NITRO_PORT,
+    srvxLoaderPresent: Boolean(globalThis.__srvxLoader__),
     serverEntry: fileURLToPath(serverEntry),
     serverEntryExists: existsSync(serverEntry),
   }),
